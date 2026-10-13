@@ -45,7 +45,35 @@ def has_time_conflict(session_a, session_b):
 
     if -1 in (start_a, end_a, start_b, end_b):
         return False
-    
+        
+    return (start_a < end_b) and (start_b < end_a)
+
+
+def load_courses_from_excel(filename):
+    """Loads course data from an Excel file and returns them as a list of dictionaries."""
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_directory, filename)
+
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f"Excel file '{filename}' was not found in the project folder!")
+
+    workbook = openpyxl.load_workbook(file_path, data_only=True)
+    sheet = workbook.active
+    course_list = []
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        if not row or row[0] is None:
+            continue
+
+        raw_code, raw_sube, raw_gun, raw_baslangic, raw_bitis = row[:5]
+
+        try:
+            section_number = int(raw_sube)
+        except (ValueError, TypeError):
+            section_number = 1
+
+        record = {
+            "ders_kodu": str(raw_code).strip().upper(),
             "sube": section_number,
             "gun": str(raw_gun).strip().capitalize() if raw_gun else "",
             "baslangic": str(raw_baslangic).strip() if raw_baslangic else "",

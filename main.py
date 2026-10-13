@@ -45,7 +45,7 @@ def has_time_conflict(session_a, session_b):
 
     if -1 in (start_a, end_a, start_b, end_b):
         return False
-
+        
     return (start_a < end_b) and (start_b < end_a)
 
 

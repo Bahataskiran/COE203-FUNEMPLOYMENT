@@ -1,4 +1,35 @@
+"""
+Course Schedule Optimizer (COE203 - Project 1)
 
+This script loads university course schedule data from an Excel workbook,
+filters theoretical lectures and lab sessions (sections >= 51), checks for
+time and day conflicts, and generates optimal conflict-free weekly schedules
+based on custom user optimization preferences.
+"""
+
+import os
+import openpyxl
+
+DEFAULT_EXCEL_FILENAME = "26-27-guz-yari-yili-ders-plani-2.xlsx"
+LAB_SECTION_THRESHOLD = 51
+DAY_ORDER = {"Pazartesi": 1, "Salı": 2, "Çarşamba": 3, "Perşembe": 4, "Cuma": 5}
+
+
+# ============================================================================
+# HELPER FUNCTIONS: DATA PARSING & CONFLICT CHECKS
+# ============================================================================
+
+def parse_time_to_minutes(time_str):
+    """Converts a time string in 'HH:MM' format into total minutes from midnight."""
+    clean_str = str(time_str).strip()
+    if not clean_str or ":" not in clean_str:
+        return -1
+    parts = clean_str.split(":")
+    if len(parts) != 2:
+        return -1
+    try:
+        return int(parts[0]) * 60 + int(parts[1])
+    except ValueError:
         return -1
 
 

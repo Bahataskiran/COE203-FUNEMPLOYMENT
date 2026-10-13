@@ -1,4 +1,3 @@
-Markdown
 # Course Schedule Optimizer
 # Course Schedule Optimizer - COE203 Project 1
 

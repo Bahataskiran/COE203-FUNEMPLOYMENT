@@ -1,4 +1,3 @@
-# Course Schedule Optimizer
 # Course Schedule Optimizer - COE203 Project 1
 
 A Python tool that generates conflict-free weekly course schedules from the university timetable Excel file. It handles both lecture and lab sections and sorts valid schedules based on your preference.
@@ -17,6 +16,19 @@ First, make sure dependencies are installed:
 
 pip install -r requirements.txt
 
+## Quick Start & Sample Courses
+
+To quickly test the application without searching through the Excel dataset, you can use the following sample engineering courses (these are included in the dataset and generate conflict-free alternative schedules):
+
+- MATH213
+- COE203
+- SWE209
+- MATH205
+- EEE201
+
+### Fast Test via CLI
+python cli.py --courses MATH213 COE203 SWE209 --criteria 1
+
 ## Usage
 
 ### 1. Command Line Interface (CLI)
@@ -29,7 +41,7 @@ python cli.py --courses COE203 SWE209
 python cli.py --courses COE203 SWE209 --criteria 2
 
 # Show top 5 options
-python cli.py --courses COE203 SWE209 MATH101 --criteria 4 --top 5
+python cli.py --courses COE203 SWE209 MATH213 --criteria 4 --top 5
 
 # See all arguments
 python cli.py --help
@@ -38,6 +50,8 @@ python cli.py --help
 If you prefer terminal prompts:
 
 python main.py
+
+(When prompted, enter course codes one by one such as MATH213 or COE203, press Enter on an empty line when done, and select your sorting criteria.)
 
 ## Optimization Preferences
 

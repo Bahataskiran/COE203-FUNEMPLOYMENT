@@ -67,27 +67,7 @@ def load_courses_from_excel(filename):
 
         raw_code, raw_sube, raw_gun, raw_baslangic, raw_bitis = row[:5]
 
-        try:
-            section_number = int(raw_sube)
-        except (ValueError, TypeError):
-            section_number = 1
-
-        record = {
-            "ders_kodu": str(raw_code).strip().upper(),
-            "sube": section_number,
-            "gun": str(raw_gun).strip().capitalize() if raw_gun else "",
-            "baslangic": str(raw_baslangic).strip() if raw_baslangic else "",
-            "bitis": str(raw_bitis).strip() if raw_bitis else "",
-        }
-        course_list.append(record)
-
-    return course_list
-
-
-def separate_theory_and_labs(selected_codes, all_courses):
-    """Separates selected courses into theory and lab option lists."""
-    categorized = {}
-    for code in selected_codes:
+        
         theory = []
         labs = []
         for entry in all_courses:

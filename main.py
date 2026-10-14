@@ -193,65 +193,7 @@ def calculate_total_idle_time(schedule):
 
 
 def format_schedule_report(schedule, plan_index=1):
-    """Formats schedule details and metrics into a readable terminal table."""
-    unique_days = set(session["gun"] for session in schedule)
-    days_used = sorted(list(unique_days), key=lambda d: DAY_ORDER.get(d, 99))
-
-    earliest_start, avg_start = calculate_latest_start_score(schedule)
-
-    earliest_h = int(earliest_start // 60)
-    earliest_m = int(earliest_start % 60)
-    avg_h = int(avg_start // 60)
-    avg_m = int(avg_start % 60)
-    idle_hours = calculate_total_idle_time(schedule) / 60
-
-    report = [
-        "\n" + "=" * 60,
-        f"  OPTION #{plan_index}",
-        f"  -> Total Campus Days      : {len(days_used)} days ({', '.join(days_used)})",
-        f"  -> Earliest Class Start   : {earliest_h:02d}:{earliest_m:02d} (Average: {avg_h:02d}:{avg_m:02d})",
-        f"  -> Total Gap Time Between : {idle_hours:.1f} hours",
-        "=" * 60,
-    ]
-
-    schedule_sorted = sorted(
-        schedule, 
-        key=lambda x: (DAY_ORDER.get(x["gun"], 99), parse_time_to_minutes(x["baslangic"]))
-    )
-
-    for session in schedule_sorted:
-        session_type = "LAB" if session["sube"] >= LAB_SECTION_THRESHOLD else "LECTURE"
-        report.append(
-            f"  [{session['ders_kodu']}] Section {session['sube']:<2} ({session_type:<7}) | {session['gun']:<10} {session['baslangic']} - {session['bitis']}"
-        )
-
-    return "\n".join(report)
-
-
-# ============================================================================
-# MAIN APPLICATION CONTROLLER
-# ============================================================================
-
-def main():
-    print("=" * 60)
-    print("       COURSE SCHEDULE OPTIMIZATION SYSTEM")
-    print("=" * 60)
-
-    try:
-        courses = load_courses_from_excel(DEFAULT_EXCEL_FILENAME)
-        print(f"-> Excel loaded successfully. Total records: {len(courses)}\n")
-    except FileNotFoundError as error:
-        print(f"-> ERROR: {error}")
-        return
-
-    # 1. Get Course Selections from User
-    selected_codes = []
-    print("Enter the course codes you want to take (e.g., COE203, SWE209).")
-    print("Press ENTER on an empty line when you are done.\n")
-
-    while True:
-        entry = input(f"Course #{len(selected_codes) + 1} Code: ").strip().upper()
-        if not entry:
+    
             break
         if entry in selected_codes:
             print(f"   -> '{entry}' is already added.")
